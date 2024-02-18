@@ -1,24 +1,34 @@
-#include <Arduino.h>
+/*
+FPV Laptimer build by Edward John Garrido
+*/
+//Import required libraries.
 #include <ESP8266WiFi.h>
 #include <ESPAsyncTCP.h>
 #include <ESPAsyncWebServer.h>
+#include <FS.h>
+#include <LittleFS.h>
 
+//ESP8266 OR ESP32 Asynchronous Web Server's SSID and Password
 const char* ssid = "testwebserver";
 const char* password = "123456789";
 
 //create asyncwebserver object on port 80
 AsyncWebServer server(80);
 
-const char index_html[] PROGMEM = R"rawliteral(
-  <!DOCTYPE HTML><html>
-  <h1>HELLO WORLD</h1>
-  <h1>Android 1.8 IDE</h1>
-  </html>
-)rawliteral";
+String processor(const String& var){
+  Serial.println(var);
+  return String();
+  }
 
 void setup() {
   // put your setup code here, to run once:
-  Serial.begin(9600);
+  Serial.begin(115200);
+
+  //Inititalize LittleFS
+  if(!LittleFS.begin()){
+    Serial.println("An Error has occured while mounting LittleFS");
+    return;
+    }
 
   Serial.print("Setting AP (Access Point)…");
   // Remove the password parameter, if you want the AP (Access Point) to be open
@@ -33,8 +43,13 @@ void setup() {
 
   // Route for root / web page
   server.on("/", HTTP_GET, [](AsyncWebServerRequest *request){
-    request->send_P(200, "text/html", index_html);
+    request->send(LittleFS, "/index.html", String(), false, processor);
   });
+
+  // Route to load style.css file
+  server.on("/style.css", HTTP_GET, [](AsyncWebServerRequest *request){
+    request->send(LittleFS, "/style.css", "text/css");
+    });
 
   // Start server
   server.begin();

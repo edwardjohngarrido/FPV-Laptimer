@@ -14,7 +14,7 @@
                     <a href="index.html" aria-current="page"><span>Home</span></a>
                 </li>
                 <li>
-                    <a href="setup.html"><span>Race Setup</span></a>
+                    <a href="setup.html"><span>Event Setup</span></a>
                 </li>
                 <li>
                     <a href="schedule.html"><span>Schedule</span></a>
@@ -26,13 +26,29 @@
         </nav>
         <main>
             <div class="main-header">
-                <h1>Event: </h1>
-                <span class="event-name"><h1>Race 1asdfasdsadsadsadasdsadadasdasdasdsadsadsadasdassaend</h1></span>
-                <h1>Heat: </h1>
-                <span class="heat-number"><h1>1</h1></span>
-                <h1>&nbsp;of </h1>
-                <span class="total-heat"><h1>&nbsp;5</h1></span>
-                <button class="event-menu">Event Menu</button>
+                <ul>
+                    <li class="event-name-container">
+                        <span><h1>Event: </h1></span>
+                        <span class="event-name"><h1>DSB FPV Race</h1></span>
+                    </li>
+                    <li class="round-container">
+                        <span><h1>Round: </h1></span>
+                        <span class="round-type"><h1>Elimination</h1></span>
+                    </li>
+                    <li class="heat-container">
+                        <span><h1>Heat: </h1></span>
+                        <span class="heat-number"><h1>1</h1></span>
+                        <span><h1>of</h1></span>
+                        <span class="total-heat"><h1>5</h1></span>
+                    </li>
+                    <li class="event-menu-container">
+                        <button class="event-menu">Event Menu</button>
+                    </li>
+                </ul>
+            </div>
+            <div class="start-btn-container">
+                <button class="start-btn">RACE START</button>
+                <span class="countdown hidden">Race starts in</span>
             </div>
             <div class="main-body">
                 <div class="pilot-box">
@@ -43,23 +59,140 @@
                             <span class="pilot-status">FLYING</span>
                         </li>
                         <li class="pilot-box-lap-container">
-                            Lap&nbsp;
+                            <span class="lap">Lap</span>
                             <span class="lap-number">1</span>
-                            &nbsp;of 
+                            <span class="of">of</span> 
                             <span class="total-laps">&nbsp;5</span>
+                            <button class="add-lap-btn" type="submit">Manual Add Lap</button>
+                            <button class="dnf-btn" type="submit">Pilot DNF</button>
                         </li>
                         <li class="timer-container">
-                            <span class="text-minute">01 :</span>
-                            <span class="text-sec">&nbsp;47 :</span>
-                            <span class="text-msec">&nbsp;97</span>
+                            <span class="minute">01:</span>
+                            <span class="sec">47:</span>
+                            <span class="msec">97</span>
                         </li>
-                        <li class="button-override">
-                            <button type="submit">Manual Add Lap</button>
-                            <button type="submit">Pilot DNF</button>
+                        <li class="more-lap-info">
+                            <div class="last-lap">
+                                <span class="last-lap">Last:</span>
+                                <span class="minute">01:</span>
+                                <span class="sec">30:</span>
+                                <span class="msec">25</span>
+                            </div>
+                            <div class="fast-lap">
+                                <span class="fast-lap">Fast:</span>
+                                <span class="minute">01:</span>
+                                <span class="sec">29:</span>
+                                <span class="msec">44</span>
+                            </div>
+                            <div class="lap-delta">
+                                <span class="delta-sign">+</span>
+                                <span class="sec">01</span>
+                                <span class="msc">.47</span>
+                            </div>
+                            
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="pilot-box">
+                    <ul>
+                        <li class="pilot-box-identifier">
+                            <span class="frequency">R1</span>
+                            <span class="pilot-name">iiidwaaaardfpv</span>
+                            <span class="pilot-status">FLYING</span>
+                        </li>
+                        <li class="pilot-box-lap-container">
+                            <span class="lap">Lap</span>
+                            <span class="lap-number">1</span>
+                            <span class="of">of</span> 
+                            <span class="total-laps">&nbsp;5</span>
+                            <button class="add-lap-btn" type="submit">Manual Add Lap</button>
+                            <button class="dnf-btn" type="submit">Pilot DNF</button>
+                        </li>
+                        <li class="timer-container">
+                            <span class="minute">01:</span>
+                            <span class="sec">47:</span>
+                            <span class="msec">97</span>
+                        </li>
+                        <li class="more-lap-info">
+                            <div class="last-lap">
+                                <span class="last-lap">Last:</span>
+                                <span class="minute">01:</span>
+                                <span class="sec">30:</span>
+                                <span class="msec">25</span>
+                            </div>
+                            <div class="fast-lap">
+                                <span class="fast-lap">Fast:</span>
+                                <span class="minute">01:</span>
+                                <span class="sec">29:</span>
+                                <span class="msec">44</span>
+                            </div>
+                            <div class="lap-delta">
+                                <span class="delta-sign">+</span>
+                                <span class="sec">01</span>
+                                <span class="msc">.47</span>
+                            </div>
+                            
                         </li>
                     </ul>
                 </div>
             </div>
         </main>
+        <script>
+            const startButton = document.getElementsByClassName("start-btn")[0];
+            //const falseStartButton = document.getElementsByClassName("falsestart-btn")[0];
+            const manualLapButton = document.getElementsByClassName("add-lap-btn")[0];
+            const dnfButton = document.getElementsByClassName("dnf-btn")[0];
+            const minute = document.getElementsByClassName("minute")[0];
+            const second = document.getElementsByClassName("sec")[0];
+            const millisec = document.getElementsByClassName("msc")[0];
+            const countdown = document.getElementsByClassName("countdown")[0];
+
+            let isStart = false
+            let secCounter = 0;
+            let min;
+            let sec;
+            let millisecCount = 0;
+            let counter = 3;
+            let raceStart;
+            let startSignal;
+
+            const toggleButton = () => {
+                //falseStartButton.classList.remove("hidden");
+                countdown.classList.remove("hidden");
+            }
+
+            const start = () => {
+                
+                if (!isStart) {
+                    raceStart = setInterval(() => {
+                        countdown.innerHTML = `${counter--}`;
+                        if(counter < 0){
+                        //countdown.innerHTML = "START"
+                        startSignal = setInterval(() => {
+                            startButton.innerHTML = "FALSE START";
+                            //countdown.classList.add("hidden");
+                        }, 1000);
+                    };
+                    }, 1000);
+                    isStart = true;
+                    
+                } else {
+                    clearInterval(raceStart);
+                    clearInterval(startSignal);
+                    counter = 3;
+                    if(counter === 3){
+                        countdown.innerHTML = "Race starts in";
+                        startButton.innerHTML = "RACE START";
+                    };
+                    countdown.innerHTML = counter;
+                    isStart = false;
+                };
+                toggleButton();
+            }
+
+            startButton.addEventListener("click", start);
+
+        </script>
     </body>
 </html>

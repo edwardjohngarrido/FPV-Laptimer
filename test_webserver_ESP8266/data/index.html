@@ -48,7 +48,7 @@
             </div>
             <div class="start-btn-container">
                 <button class="start-btn">RACE START</button>
-                <span class="countdown hidden">Race starts in</span>
+                <span class="countdown hidden"></span>
             </div>
             <div class="main-body">
                 <div class="pilot-box">
@@ -152,40 +152,41 @@
             let secCounter = 0;
             let min;
             let sec;
+            let msec;
             let millisecCount = 0;
-            let counter = 3;
+            let countdownTimer = 5;
             let raceStart;
             let startSignal;
 
             const toggleButton = () => {
                 //falseStartButton.classList.remove("hidden");
                 countdown.classList.remove("hidden");
+                countdown.innerHTML ="Race starts in";
             }
 
             const start = () => {
                 
                 if (!isStart) {
                     raceStart = setInterval(() => {
-                        countdown.innerHTML = `${counter--}`;
-                        if(counter < 0){
-                        //countdown.innerHTML = "START"
-                        startSignal = setInterval(() => {
+                        countdown.innerHTML = `${countdownTimer--}`;
+                        if(countdownTimer < 0 && countdownTimer > -2){
+                            countdown.innerHTML = "START"
                             startButton.innerHTML = "FALSE START";
-                            //countdown.classList.add("hidden");
-                        }, 1000);
-                    };
+                            isStart = true;
+                        };
+                        if(countdownTimer < -1){
+                            countdown.classList.add("hidden");
+                        }
                     }, 1000);
-                    isStart = true;
-                    
-                } else {
+                } else{
+                    countdown.innerHTML="";
                     clearInterval(raceStart);
                     clearInterval(startSignal);
-                    counter = 3;
-                    if(counter === 3){
-                        countdown.innerHTML = "Race starts in";
+                    countdownTimer = 5;
+                    if(countdownTimer === 5){
                         startButton.innerHTML = "RACE START";
+                        
                     };
-                    countdown.innerHTML = counter;
                     isStart = false;
                 };
                 toggleButton();

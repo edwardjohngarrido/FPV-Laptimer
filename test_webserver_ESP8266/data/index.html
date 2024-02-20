@@ -67,9 +67,9 @@
                             <button class="dnf-btn" type="submit">Pilot DNF</button>
                         </li>
                         <li class="timer-container">
-                            <span class="minute">01:</span>
-                            <span class="sec">47:</span>
-                            <span class="msec">97</span>
+                            <span class="minute">00:</span>
+                            <span class="sec">00:</span>
+                            <span class="msec">00</span>
                         </li>
                         <li class="more-lap-info">
                             <div class="last-lap">
@@ -145,11 +145,12 @@
             const dnfButton = document.getElementsByClassName("dnf-btn")[0];
             const minute = document.getElementsByClassName("minute")[0];
             const second = document.getElementsByClassName("sec")[0];
-            const millisec = document.getElementsByClassName("msc")[0];
+            const millisec = document.getElementsByClassName("msec")[0];
             const countdown = document.getElementsByClassName("countdown")[0];
 
             let isStart = false
-            let secCounter = 0;
+            let minCounter = 1;
+            let secCounter = 1;
             let min;
             let sec;
             let msec;
@@ -173,6 +174,19 @@
                             countdown.innerHTML = "START"
                             startButton.innerHTML = "FALSE START";
                             isStart = true;
+                            if(isStart){
+                                msec = setInterval(() => {
+                                    if(millisecCount === 100){
+                                        millisecCount = 0;
+                                        if(secCounter === 60){
+                                            secCounter = 1;
+                                            minute.innerText = `${minCounter++}: `;
+                                        }
+                                        second.innerText = `${secCounter++}: `;
+                                    }
+                                    millisec.innerText = `${millisecCount++}`;
+                                }, 10);
+                            }
                         };
                         if(countdownTimer < -1){
                             countdown.classList.add("hidden");
